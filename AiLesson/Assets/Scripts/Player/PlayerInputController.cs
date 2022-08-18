@@ -46,12 +46,14 @@ public class PlayerInputController : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.transform.parent.parent.name.Equals("Floors")|| collision.transform.parent.parent.name.Equals("map Stairs"))
+        if (collision.transform.parent !=null &&collision.transform.parent.parent != null)//if not collides with the enemy bot or the obstacles
+            if (collision.transform.parent.parent.name.Equals("Floors")|| collision.transform.parent.parent.name.Equals("map Stairs"))
             isjumping = true;
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.parent.parent.name.Equals("Floors")|| collision.transform.parent.parent.name.Equals("map Stairs"))
+        if (collision.transform.parent != null && collision.transform.parent.parent != null)//if not collides with the enemy bot or the obstacles
+            if (collision.transform.parent.parent.name.Equals("Floors")|| collision.transform.parent.parent.name.Equals("map Stairs"))
             isjumping = false;
     }
 
