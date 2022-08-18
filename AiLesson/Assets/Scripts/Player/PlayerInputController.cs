@@ -10,6 +10,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] int speed;
     [SerializeField] float forcePower;
     bool pressedJump=false;
+    bool isjumping = false;
     // Update is called once per frame
     void Update()
     {
@@ -24,18 +25,34 @@ public class PlayerInputController : MonoBehaviour
             {
                 transform.Translate(Vector3.forward * Time.deltaTime* verticalAxis * speed);
             }
-            if (Input.GetKeyDown("joystick button 1"))
+            if (Input.GetKeyDown("joystick button 1")||Input.GetKeyDown(KeyCode.Space))
             {
-            pressedJump = true;
+                pressedJump = true;
                 Debug.Log("jumping");
+            
             }
     }
     private void FixedUpdate()
     {
         if (pressedJump)
-        { 
+        {
+            if (!isjumping)
+            {
             _playerRb.AddForce(Vector3.up * forcePower * Time.deltaTime, ForceMode.Impulse);
             pressedJump = false;
+            }
         }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.transform.parent.parent.name.Equals("Floors")|| collision.transform.parent.parent.name.Equals("map Stairs"))
+            isjumping = true;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.parent.parent.name.Equals("Floors")|| collision.transform.parent.parent.name.Equals("map Stairs"))
+            isjumping = false;
+    }
+
 }
